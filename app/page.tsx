@@ -89,18 +89,19 @@ export default function App() {
   const [isExporting, setIsExporting] = useState(false);
   const [showExportMenu, setShowExportMenu] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
-  const [notification, setNotification] = useState(null);
-  const [logs, setLogs] = useState([]);
-  const [results, setResults] = useState([]);
+  const [notification, setNotification] = useState<string | null>(null);
+  const [logs, setLogs] = useState<any[]>([]);
+  const [results, setResults] = useState<any[]>([]);
   const [progress, setProgress] = useState(0);
   const [inputMode, setInputMode] = useState('standard'); 
   const [customInput, setCustomInput] = useState("INV-X1, INV-X2");
-  const [selectedInvoice, setSelectedInvoice] = useState(null);
-  const terminalEndRef = useRef(null);
+  const [selectedInvoice, setSelectedInvoice] = useState<any>(null);
+  const terminalEndRef = useRef<HTMLDivElement>(null);
 
   const linkedinProfileUrl = "https://www.linkedin.com/in/sakis-athan-b240553a2/";
 
-  const addLog = (message, type = 'info') => {
+  // Διόρθωση: Προσθήκη τύπων στις παραμέτρους
+  const addLog = (message: string, type: string = 'info') => {
     setLogs((prev) => [...prev, { message, type, time: new Date().toLocaleTimeString() }]);
   };
 
@@ -110,12 +111,12 @@ export default function App() {
     }
   }, [logs]);
 
-  const handleExport = (format) => {
+  // Διόρθωση: Προσθήκη τύπου στην παράμετρο format
+  const handleExport = (format: string) => {
     setIsExporting(true);
     setShowExportMenu(false);
     setTimeout(() => {
       setIsExporting(false);
-      // Ενημέρωση ειδοποίησης στα αγγλικά: "Saved as PDF!" ή "Saved as CSV!"
       const displayFormat = format.toUpperCase() === 'CVS' ? 'CSV' : format.toUpperCase();
       setNotification(`Saved as ${displayFormat}!`);
       setTimeout(() => setNotification(null), 4000);
@@ -160,7 +161,7 @@ export default function App() {
       { msg: 'Process completed. High-fidelity data ready.', delay: 3500, prog: 100, type: 'final' },
     ];
 
-    simulationSteps.forEach((step, index) => {
+    simulationSteps.forEach((step: any) => {
       setTimeout(() => {
         addLog(step.msg, step.type || 'info');
         setProgress(step.prog);
@@ -334,7 +335,7 @@ export default function App() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
-                  {selectedInvoice.items.map((item, i) => (
+                  {selectedInvoice.items.map((item: any, i: number) => (
                     <tr key={i} className="text-sm text-slate-800">
                       <td className="py-4 font-medium">{item.desc}</td>
                       <td className="py-4 text-center text-slate-500">{item.qty}</td>
@@ -482,7 +483,7 @@ export default function App() {
             </div>
             <div className="flex-1 overflow-y-auto space-y-1 custom-scrollbar">
               {logs.length === 0 && <span className="text-slate-800 italic">Waiting for command...</span>}
-              {logs.map((log, i) => (
+              {logs.map((log: any, i: number) => (
                 <div key={i} className="flex gap-2 animate-in fade-in slide-in-from-bottom-1">
                   <span className="text-slate-600">[{log.time}]</span>
                   <span className={log.type === 'success' ? 'text-emerald-400 font-bold' : log.type === 'final' ? 'text-blue-400 font-black' : 'text-slate-400'}>{log.message}</span>
@@ -532,7 +533,7 @@ export default function App() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-800/50 text-slate-300">
-                    {results.map((row, i) => (
+                    {results.map((row: any, i: number) => (
                       <tr key={i} onClick={() => setSelectedInvoice(row)} className="hover:bg-blue-500/10 cursor-pointer transition-all animate-in fade-in slide-in-from-left-2 group" style={{animationDelay: `${i * 100}ms`}}>
                         <td className="py-4 px-4 font-mono text-blue-400 font-black group-hover:underline">{row.id}</td>
                         <td className="py-4 px-4 font-bold text-white">{row.seller.name}</td>
