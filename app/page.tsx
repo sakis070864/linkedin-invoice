@@ -98,7 +98,7 @@ export default function App() {
   const [selectedInvoice, setSelectedInvoice] = useState<any>(null);
   const terminalEndRef = useRef<HTMLDivElement>(null);
 
-  const linkedinProfileUrl = "https://www.linkedin.com/in/sakis-athan-b240553a2/";
+  const linkedinProfileUrl = "https://www.linkedin.com/in/sakis-athan/";
 
   // Διόρθωση: Προσθήκη τύπων στις παραμέτρους
   const addLog = (message: string, type: string = 'info') => {
